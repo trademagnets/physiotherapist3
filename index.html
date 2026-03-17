@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>MoveWell Physio | Modern care</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #0D6E6E;
+      --primary-lt: #1A9E9E;
+      --accent: #E8705A;
+      --accent-lt: #F09080;
+      --bg: #F9F7F4;
+      --bg-dark: #F0EDE8;
+      --text: #2C2C2C;
+      --text-muted: #7A7A7A;
+      --white: #FFFFFF;
+      --shadow: 0 12px 32px rgba(13, 110, 110, 0.15);
+      --radius: 20px;
+      --radius-lg: 30px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 32px;
+      --space-xl: 64px;
+      --glass-bg: rgba(255,255,255,0.7);
+      --glass-border: 1px solid rgba(255,255,255,0.3);
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background-color: var(--bg);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    h1 { font: 700 3.5rem/1.15 'Playfair Display', serif; }
+    h2 { font: 600 2.4rem/1.25 'Playfair Display', serif; }
+    h3 { font: 600 1.4rem/1.4 'DM Sans', sans-serif; }
+    p { font: 400 1.05rem/1.75 'DM Sans', sans-serif; }
+    @media (max-width: 768px) {
+      h1 { font-size: 2.6rem; }
+      h2 { font-size: 2rem; }
+    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-lg); }
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: var(--accent-lt);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 30px rgba(232,112,90,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      backdrop-filter: blur(8px);
+    }
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-4px);
+    }
+    /* modern glass navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1rem var(--space-lg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      transition: all 0.3s;
+      background: transparent;
+    }
+    .navbar.scrolled {
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 8px 32px rgba(13,110,110,0.1);
+      border-bottom: var(--glass-border);
+    }
+    .logo { font-size: 2rem; font-weight: 700; color: var(--primary); font-family: 'Playfair Display', serif; text-shadow: 0 2px 10px rgba(13,110,110,0.2); }
+    .nav-links { display: flex; gap: var(--space-lg); align-items: center; }
+    .nav-links a { font-weight: 500; color: var(--text); transition: 0.2s; }
+    .nav-links a:hover { color: var(--primary); }
+    .book-cta-nav { background: var(--accent); color: white; padding: 10px 28px; border-radius: 50px; font-weight: 600; box-shadow: 0 8px 18px rgba(232,112,90,0.3); }
+    .book-cta-nav:hover { background: var(--accent-lt); color: white; transform: scale(1.05); }
+    .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 101; }
+    .hamburger span { width: 32px; height: 3px; background: var(--primary); border-radius: 3px; transition: 0.3s; }
+    .mobile-menu {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100vh;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 200;
+      padding: var(--space-xl) var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      transform: translateX(100%);
+      transition: transform 0.4s ease-in-out;
+      border-right: var(--glass-border);
+    }
+    .mobile-menu.open { transform: translateX(0); }
+    .close-menu { font-size: 2.5rem; align-self: flex-end; cursor: pointer; color: var(--primary); }
+    .mobile-menu a { font-size: 2rem; font-weight: 500; color: var(--text); border-bottom: 2px solid transparent; transition: 0.2s; }
+    .mobile-menu a:hover { border-bottom-color: var(--primary); }
+    /* modal popup */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100vh;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.show {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 40px 70px rgba(0,0,0,0.2);
+      animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-card h2 { margin-bottom: var(--space-lg); }
+    .modal-card input {
+      width: 100%;
+      padding: 16px 20px;
+      margin-bottom: var(--space-md);
+      border: none;
+      border-radius: 60px;
+      background: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      border: 1px solid rgba(13,110,110,0.2);
+    }
+    .modal-card button {
+      width: 100%;
+      margin-top: var(--space-md);
+    }
+    .close-modal {
+      float: right;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--primary);
+      transition: 0.2s;
+    }
+    .close-modal:hover { transform: rotate(90deg); }
+    /* page system */
+    .page { display: none; padding-top: 100px; min-height: calc(100vh - 300px); animation: fadeIn 0.6s; }
+    .page.active { display: block; }
+    @keyframes fadeIn { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
+    /* hero animations */
+    .hero { min-height: 90vh; display: flex; align-items: center; background: radial-gradient(circle at 10% 30%, rgba(13,110,110,0.08), transparent 40%), linear-gradient(135deg, #f0f5f5, var(--bg)); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center; }
+    .hero-text > * { animation: slideUp 0.6s forwards; opacity: 0; }
+    .hero-text :nth-child(1) { animation-delay: 0.1s; }
+    .hero-text :nth-child(2) { animation-delay: 0.3s; }
+    .hero-text :nth-child(3) { animation-delay: 0.5s; }
+    .hero-text :nth-child(4) { animation-delay: 0.7s; }
+    @keyframes slideUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+    .hero-image { position: relative; animation: scaleIn 0.8s 0.2s both; }
+    @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+    .floating-badge { position: absolute; bottom: 20px; right: 20px; background: var(--white); padding: 12px 24px; border-radius: 60px; box-shadow: var(--shadow); font-weight: 600; backdrop-filter: blur(4px); border: 1px solid rgba(13,110,110,0.2); }
+    .stat-strip { background: var(--primary); color: white; padding: var(--space-lg); display: flex; justify-content: space-around; flex-wrap: wrap; gap: var(--space-lg); border-radius: 60px; margin: var(--space-xl) auto; width: 95%; box-shadow: var(--shadow); }
+    .card-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-lg); margin-top: var(--space-lg); }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+      border: 1px solid rgba(13,110,110,0.1);
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.75);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .service-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 30px 50px rgba(13,110,110,0.2); background: white; }
+    .service-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--primary-lt);
+    }
+    .service-card .content {
+      padding: var(--space-lg);
+    }
+    /* ticker */
+    .ticker { background: var(--bg-dark); padding: var(--space-md) 0; overflow: hidden; white-space: nowrap; border-radius: 60px; margin: var(--space-xl) 0; }
+    .ticker-inner { display: inline-block; animation: marquee 30s linear infinite; }
+    .ticker-inner span { margin: 0 var(--space-lg); font-size: 1.3rem; font-weight: 500; color: var(--primary); background: rgba(13,110,110,0.1); padding: 6px 20px; border-radius: 40px; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    /* carousel */
+    .carousel { position: relative; max-width: 900px; margin: 0 auto; overflow: hidden; border-radius: var(--radius); }
+    .carousel-track { display: flex; transition: transform 0.5s ease; }
+    .testimonial-card { min-width: 100%; padding: var(--space-lg); background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid rgba(13,110,110,0.1); }
+    .carousel-nav { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-md); }
+    .dot { width: 14px; height: 14px; border-radius: 50%; background: #ccc; cursor: pointer; transition: 0.2s; }
+    .dot.active { background: var(--primary); transform: scale(1.3); }
+    /* booking banner */
+    .cta-banner { background: linear-gradient(145deg, var(--accent), #f08a70); border-radius: 60px; margin: var(--space-xl) auto; width: 95%; box-shadow: 0 25px 40px rgba(232,112,90,0.3); }
+    /* map section */
+    .map-section {
+      padding: var(--space-xl) 0;
+      background: var(--bg-dark);
+    }
+    .map-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 45%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      margin: var(--space-lg) 0;
+    }
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    /* FAQ section */
+    .faq-section {
+      padding: var(--space-xl) 0;
+      background: var(--bg);
+    }
+    .faq-grid {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    details {
+      background: var(--white);
+      border-radius: var(--radius);
+      margin-bottom: var(--space-md);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(13,110,110,0.1);
+      transition: all 0.2s;
+    }
+    details[open] {
+      background: var(--bg-dark);
+    }
+    summary {
+      font-weight: 600;
+      font-size: 1.2rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    summary::after {
+      content: '+';
+      font-size: 1.8rem;
+      color: var(--primary);
+      transition: transform 0.2s;
+    }
+    details[open] summary::after {
+      content: '−';
+    }
+    details p {
+      margin-top: var(--space-md);
+      color: var(--text-muted);
+    }
+    /* footer */
+    footer { background: var(--primary); color: white; border-radius: 60px 60px 0 0; margin-top: var(--space-xl); padding: var(--space-xl) 0 var(--space-md); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; gap: var(--space-lg); }
+    @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .map-container { padding-bottom: 75%; }
+    }
+    /* mobile sticky book */
+    .mobile-book {
+      display: none;
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: var(--accent);
+      color: white;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.8rem;
+      box-shadow: 0 10px 25px rgba(232,112,90,0.5);
+      z-index: 99;
+      cursor: pointer;
+      transition: 0.2s;
+      border: none;
+    }
+    .mobile-book:hover { transform: scale(1.1); }
+    @media (max-width: 768px) { .mobile-book { display: flex; } }
+  </style>
+</head>
+<body>
+  <!-- navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">MoveWell Physio</div>
+    <div class="nav-links">
+      <a href="#home" class="nav-link">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#blog" class="nav-link">Blog</a>
+      <a href="#" class="book-cta-nav open-modal-btn">Book Now</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="close-menu" id="closeMenu">&times;</div>
+    <a href="#home" class="mobile-link">Home</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#conditions" class="mobile-link">Conditions</a>
+    <a href="#booking" class="mobile-link">Booking</a>
+    <a href="#blog" class="mobile-link">Blog</a>
+    <a href="#testimonials" class="mobile-link">Testimonials</a>
+  </div>
+
+  <!-- floating mobile book -->
+  <button class="mobile-book open-modal-btn"><i class="fas fa-calendar-check"></i></button>
+
+  <!-- MODAL POPUP (WhatsApp booking) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <span class="close-modal" id="closeModalBtn">&times;</span>
+      <h2>📲 Book via WhatsApp</h2>
+      <p style="margin-bottom: 1rem;">Enter your details and we'll text you back.</p>
+      <input type="text" id="modalName" placeholder="Your full name" required>
+      <input type="tel" id="modalWhatsApp" placeholder="WhatsApp number (without country code)" required>
+      <button class="btn btn-primary" id="submitWhatsApp">Send &nbsp; <i class="fab fa-whatsapp"></i></button>
+      <p style="margin-top: 1rem; font-size: 0.9rem;">We'll reply within 2h on WhatsApp</p>
+    </div>
+  </div>
+
+  <!-- PAGES -->
+  <!-- HOME -->
+  <main id="page-home" class="page active">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <span class="hero-badge" style="background: rgba(13,110,110,0.1); padding: 6px 16px; border-radius: 50px; display:inline-block;">Certified Physiotherapist · Austin</span>
+          <h1>Move Without Pain. Live Without Limits.</h1>
+          <p style="font-size: 1.3rem;">Expert physiotherapy tailored to your body. Book your free consultation today.</p>
+          <div style="display: flex; gap: 1rem;">
+            <a href="#" class="btn btn-primary open-modal-btn">Book Free Consultation</a>
+            <a href="#services" class="btn btn-outline">View Services</a>
+          </div>
+          <div class="trust-bar" style="display: flex; gap: var(--space-lg); margin-top: 2rem;">
+            <span>✓ 500+ Patients</span> <span>✓ 10+ Years Exp</span> <span>✓ Same-Week Appointments</span>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://placehold.co/600x400/0D6E6E/white?text=Physio+session" style="width:100%; border-radius: 40px; box-shadow: var(--shadow);">
+          <div class="floating-badge">★ 4.9 Rating · 200+ Reviews</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stat-strip">
+      <div><i class="fas fa-trophy"></i> 500+ Patients</div>
+      <div><i class="fas fa-star"></i> 4.9/5 Google</div>
+      <div><i class="fas fa-clock"></i> Same-Week</div>
+      <div><i class="fas fa-stethoscope"></i> 10+ Specialties</div>
+    </div>
+
+    <!-- How We Help You Recover - with images -->
+    <section style="padding: var(--space-xl) 0;">
+      <div class="container">
+        <h2 style="text-align: center;">How We Help You Recover</h2>
+        <p style="text-align: center; max-width: 700px; margin: 0 auto var(--space-xl);">Tailored physiotherapy programmes for every body.</p>
+        <div class="card-grid">
+          <div class="service-card">
+            <img src="https://placehold.co/600x400/0D6E6E/white?text=Manual+Therapy" alt="Manual therapy session">
+            <div class="content">
+              <h3>Manual Therapy</h3>
+              <p>Hands-on techniques to restore mobility and reduce pain.</p>
+              <a href="#" style="color:var(--primary); font-weight:600;">Learn More →</a>
+            </div>
+          </div>
+          <div class="service-card">
+            <img src="https://placehold.co/600x400/1A9E9E/white?text=Sports+Rehab" alt="Sports rehabilitation">
+            <div class="content">
+              <h3>Sports Rehabilitation</h3>
+              <p>Return to sport stronger and prevent re-injury.</p>
+              <a href="#" style="color:var(--primary); font-weight:600;">Learn More →</a>
+            </div>
+          </div>
+          <div class="service-card">
+            <img src="https://placehold.co/600x400/E8705A/white?text=Post-Surgery" alt="Post-surgery recovery">
+            <div class="content">
+              <h3>Post-Surgery Recovery</h3>
+              <p>Regain function and confidence after surgery.</p>
+              <a href="#" style="color:var(--primary); font-weight:600;">Learn More →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: var(--bg-dark); padding: var(--space-xl) 0; border-radius: 80px;">
+      <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); align-items: center;">
+        <div><img src="https://placehold.co/500x400/0D6E6E/white?text=Clinic" style="width:100%; border-radius: 40px;"></div>
+        <div>
+          <h2>Physiotherapy That Puts <em>You</em> First</h2>
+          <ul style="list-style: none;">
+            <li><i class="fas fa-check-circle" style="color:var(--primary);"></i> Personalised Treatment Plans</li>
+            <li><i class="fas fa-check-circle" style="color:var(--primary);"></i> Evidence-Based Techniques</li>
+            <li><i class="fas fa-check-circle" style="color:var(--primary);"></i> Flexible Morning & Evening Slots</li>
+            <li><i class="fas fa-check-circle" style="color:var(--primary);"></i> Private, Comfortable Clinic</li>
+          </ul>
+          <a href="#" class="btn btn-primary open-modal-btn">Book Your Assessment Today</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker">
+      <div class="ticker-inner">
+        <span>Back Pain</span> <span>Neck Pain</span> <span>Sports Injuries</span> <span>Knee Pain</span> <span>Shoulder Pain</span> <span>Post-Surgery</span> <span>Sciatica</span> <span>Arthritis</span> <span>Posture</span> <span>Headaches</span> <span>Back Pain</span> <span>Neck Pain</span> <span>Sports Injuries</span> <span>Knee Pain</span> <span>Shoulder Pain</span> <span>Post-Surgery</span> <span>Sciatica</span> <span>Arthritis</span> <span>Posture</span> <span>Headaches</span>
+      </div>
+    </div>
+
+    <!-- Testimonials with 5 cards -->
+    <section style="padding: var(--space-xl) 0;">
+      <div class="container">
+        <h2 style="text-align: center;">Patient Stories</h2>
+        <div class="carousel" id="testimonialsCarousel">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="testimonial-card"><div class="stars" style="color:gold;">★★★★★</div><p>"After months of back pain, I'm finally pain‑free. Sarah is amazing!"</p><p><strong>– Emily R.</strong></p></div>
+            <div class="testimonial-card"><div class="stars" style="color:gold;">★★★★★</div><p>"Great sports rehab after knee injury. Back to running in 8 weeks."</p><p><strong>– James K.</strong></p></div>
+            <div class="testimonial-card"><div class="stars" style="color:gold;">★★★★★</div><p>"Very caring and professional. The clinic is warm and welcoming."</p><p><strong>– Linda T.</strong></p></div>
+            <div class="testimonial-card"><div class="stars" style="color:gold;">★★★★★</div><p>"My shoulder feels brand new after just 6 sessions. Highly recommend!"</p><p><strong>– Michael P.</strong></p></div>
+            <div class="testimonial-card"><div class="stars" style="color:gold;">★★★★★</div><p>"The post-surgery rehab got me back on the golf course in no time."</p><p><strong>– Robert H.</strong></p></div>
+          </div>
+        </div>
+        <div class="carousel-nav" id="carouselDots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+          <span class="dot" data-index="3"></span>
+          <span class="dot" data-index="4"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION (NEW) -->
+    <section class="faq-section">
+      <div class="container faq-grid">
+        <h2 style="text-align: center; margin-bottom: var(--space-lg);">Frequently Asked Questions</h2>
+        <details>
+          <summary>Do I need a referral to see a physiotherapist?</summary>
+          <p>No, you don't need a referral. You can book directly with us. However, some insurance plans may require a referral for coverage — we recommend checking with your provider.</p>
+        </details>
+        <details>
+          <summary>What should I wear to my appointment?</summary>
+          <p>Comfortable, loose-fitting clothing that allows easy movement. For lower body issues, shorts are ideal; for upper body, a tank top or loose t-shirt works well.</p>
+        </details>
+        <details>
+          <summary>How long is a typical session?</summary>
+          <p>Initial consultations are 60 minutes, allowing time for thorough assessment. Follow-up sessions are usually 45 minutes. All sessions are one-on-one with your physiotherapist.</p>
+        </details>
+        <details>
+          <summary>Do you accept insurance?</summary>
+          <p>Yes, we are in-network with most major insurance providers. We also offer direct billing. Contact us with your insurance details and we'll verify your coverage.</p>
+        </details>
+        <details>
+          <summary>What if I need to cancel or reschedule?</summary>
+          <p>We understand life happens. Please notify us at least 24 hours in advance to avoid a cancellation fee. You can easily reschedule via our booking link or phone.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta-banner" style="padding: var(--space-xl) 0; text-align: center; color: white;">
+      <div class="container">
+        <h2 style="color: white;">Ready to Start Your Recovery?</h2>
+        <p style="margin: 1rem 0;">Book a free 15‑minute phone consultation — no commitment.</p>
+        <a href="#" class="btn" style="background: white; color: var(--primary); font-weight: 600; padding: 14px 40px;" class="open-modal-btn">Book Free Consultation</a>
+        <p style="margin-top: 1rem;">Or call us: <strong>(512) 555-0123</strong></p>
+      </div>
+    </section>
+
+    <!-- GOOGLE MAPS SECTION -->
+    <section class="map-section">
+      <div class="container">
+        <h2 style="text-align: center;">Visit Our Clinic</h2>
+        <p style="text-align: center; margin-bottom: var(--space-lg);">Conveniently located in the heart of Austin.</p>
+        <div class="map-container">
+          <!-- Google Maps embed for Austin, TX (example location) -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.561672401821!2d-97.74306068487683!3d30.26761298178637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b5b6f7b6b6b7%3A0x9b6b6b6b6b6b6b6b!2sAustin%2C%20TX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <p style="text-align: center;"><strong>123 Main Street, Austin, TX 78701</strong> · Free parking available</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- other pages (minimal for demo) -->
+  <main id="page-about" class="page"><div class="container"><h1>About Dr. Sarah</h1><p>...</p></div></main>
+  <main id="page-services" class="page"><div class="container"><h1>Services</h1><div class="card-grid">...</div></div></main>
+  <main id="page-conditions" class="page"><div class="container"><h1>Conditions</h1><p>...</p></div></main>
+
+  <!-- BOOKING PAGE with real map -->
+  <main id="page-booking" class="page">
+    <div class="container" style="padding-top: var(--space-xl);">
+      <h1>Request an Appointment</h1>
+      <div class="booking-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl);">
+        <div>
+          <form id="bookingForm">
+            <div class="form-group" id="group-name"><input type="text" placeholder="Full Name *" id="name" required><div class="error-msg">Name required</div></div>
+            <div class="form-group" id="group-email"><input type="email" placeholder="Email *" id="email" required><div class="error-msg">Valid email required</div></div>
+            <div class="form-group" id="group-phone"><input type="tel" placeholder="Phone *" id="phone" required><div class="error-msg">Phone required</div></div>
+            <div class="form-group"><input type="date" id="date"></div>
+            <div class="form-group"><select id="time"><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+            <div class="form-group"><textarea placeholder="Condition / Reason" rows="3"></textarea></div>
+            <div class="form-group"><select><option>Google</option><option>Friend</option><option>Instagram</option></select></div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Request Appointment</button>
+            <div id="formSuccess" style="display:none; background: lightgreen; padding:1rem; margin-top:1rem;">We'll confirm within 2 hours!</div>
+          </form>
+        </div>
+        <div>
+          <!-- REPLACED PLACEHOLDER WITH REAL MAP -->
+          <div class="map-container" style="padding-bottom: 56%; margin-bottom: var(--space-md);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3445.561672401821!2d-97.74306068487683!3d30.26761298178637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8644b5b6f7b6b6b7%3A0x9b6b6b6b6b6b6b6b!2sAustin%2C%20TX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+          </div>
+          <p><strong>📞 (512) 555-0123</strong><br>Mon-Fri 8am–7pm<br>Parking available</p>
+          <p>123 Main Street, Austin, TX 78701</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <main id="page-blog" class="page"><div class="container"><h1>Blog</h1></div></main>
+  <main id="page-testimonials" class="page"><div class="container"><h1>Testimonials</h1></div></main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div><div class="logo" style="color:white;">MoveWell</div><p>Move better, live better.</p><div><i class="fab fa-instagram"></i> <i class="fab fa-facebook"></i> <i class="fab fa-linkedin"></i></div></div>
+      <div><h3>Quick</h3><a href="#home" style="color:white;">Home</a><br><a href="#about" style="color:white;">About</a></div>
+      <div><h3>Services</h3>Manual Therapy<br>Sports Rehab</div>
+      <div><h3>Contact</h3>123 Main St, Austin<br>(512) 555-0123<br>hello@movewell.com</div>
+    </div>
+    <div class="container" style="text-align:center; margin-top:2rem;">© 2025 MoveWell Physio</div>
+  </footer>
+
+  <script>
+    // ------ PAGE ROUTING ------
+    const pages = document.querySelectorAll('.page');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+    function showPage(pageId) {
+      pages.forEach(p => p.classList.remove('active'));
+      const activePage = document.getElementById('page-'+pageId);
+      if (activePage) activePage.classList.add('active');
+      else document.getElementById('page-home').classList.add('active');
+      document.getElementById('mobileMenu').classList.remove('open');
+      window.location.hash = pageId;
+    }
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const hash = link.getAttribute('href').replace('#','');
+        showPage(hash);
+      });
+    });
+    window.addEventListener('load', () => {
+      const hash = window.location.hash.replace('#','') || 'home';
+      showPage(hash);
+    });
+    // navbar scroll
+    window.addEventListener('scroll', ()=> {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 80) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+    // mobile menu
+    document.getElementById('hamburger').addEventListener('click', ()=> {
+      document.getElementById('mobileMenu').classList.add('open');
+    });
+    document.getElementById('closeMenu').addEventListener('click', ()=> {
+      document.getElementById('mobileMenu').classList.remove('open');
+    });
+
+    // ------ MODAL (WhatsApp popup) ------
+    const modalOverlay = document.getElementById('modalOverlay');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const openModalBtns = document.querySelectorAll('.open-modal-btn');
+    const submitBtn = document.getElementById('submitWhatsApp');
+
+    function openModal() {
+      modalOverlay.classList.add('show');
+    }
+    function closeModal() {
+      modalOverlay.classList.remove('show');
+    }
+    openModalBtns.forEach(btn => btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    }));
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // WhatsApp submit
+    submitBtn.addEventListener('click', () => {
+      const name = document.getElementById('modalName').value.trim();
+      const wa = document.getElementById('modalWhatsApp').value.trim();
+      if (!name || !wa) {
+        alert('Please fill both fields');
+        return;
+      }
+      // Physiotherapist WhatsApp number (change to real number)
+      const physioNumber = '1234567890'; // without country code, but we'll prepend
+      // Format: country code + number (assuming 91 for India, change as needed)
+      const fullNumber = '91' + physioNumber; // modify country code accordingly
+      const message = `Hello, I'm ${name}. My WhatsApp number is ${wa}. I'd like to book an appointment.`;
+      const url = `https://wa.me/${fullNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      closeModal();
+      // optional: clear fields
+      document.getElementById('modalName').value = '';
+      document.getElementById('modalWhatsApp').value = '';
+    });
+
+    // ------ CAROUSEL (now with 5 slides) ------
+    const track = document.getElementById('carouselTrack');
+    if (track) {
+      const dots = document.querySelectorAll('.dot');
+      let current = 0;
+      const total = document.querySelectorAll('.testimonial-card').length;
+      function updateCarousel() {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d,i) => d.classList.toggle('active', i===current));
+      }
+      dots.forEach((dot,i) => dot.addEventListener('click', ()=>{ current=i; updateCarousel(); }));
+      setInterval(() => { current = (current+1) % total; updateCarousel(); }, 5000);
+    }
+  </script>
+</body>
+</html>
